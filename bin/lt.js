@@ -49,6 +49,12 @@ const { argv } = yargs
   .option('print-requests', {
     describe: 'Print basic request info',
   })
+  .option('username', {
+    describe: 'Username for Proxy Server',
+  })
+  .option('password', {
+    describe: 'Password for Proxy Server',
+  })
   .require('port')
   .boolean('local-https')
   .boolean('allow-invalid-cert')
@@ -73,6 +79,7 @@ if (typeof argv.port !== 'number') {
     local_key: argv.localKey,
     local_ca: argv.localCa,
     allow_invalid_cert: argv.allowInvalidCert,
+    ...(argv.username && argv.password ? { auth: { username: argv.username, password: argv.password } } : {}),
   }).catch(err => {
     throw err;
   });
